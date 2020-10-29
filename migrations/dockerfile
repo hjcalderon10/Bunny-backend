@@ -1,0 +1,4 @@
+from postgres:latest
+
+ADD ./postgres/ /docker-entrypoint-initdb.d/postgres/
+ADD deploy_schemas.sql /docker-entrypoint-initdb.d/
