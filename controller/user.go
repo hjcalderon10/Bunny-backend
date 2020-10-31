@@ -7,6 +7,8 @@ import (
 	"strconv"
 
 	models "github.com/hjcalderon10/bunny-backend/model"
+	taskRepo "github.com/hjcalderon10/bunny-backend/repository/task"
+	userRepo "github.com/hjcalderon10/bunny-backend/repository/user"
 	taskServices "github.com/hjcalderon10/bunny-backend/service/task"
 	userServices "github.com/hjcalderon10/bunny-backend/service/user"
 	settings "github.com/hjcalderon10/bunny-backend/setting"
@@ -24,13 +26,13 @@ type User struct {
 }
 
 func StartUser() User {
-	resourcePath := "/:id"
+	resourcePath := fmt.Sprintf("/:%s", paramUserID)
 	return User{
 		BasePath:     "/users",
 		UserPath:     resourcePath,
 		UserTaskPath: fmt.Sprintf("%s/tasks", resourcePath),
-		userSrv:      userServices.New(),
-		taskSrv:      taskServices.New(),
+		userSrv:      userServices.New(userRepo.New()),
+		taskSrv:      taskServices.New(taskRepo.New()),
 	}
 }
 
@@ -99,11 +101,11 @@ func (ctrl User) UpdateUser(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, errors.HandleError(http.StatusBadRequest, "ID must be a positive number"))
 	}
 
-	user.ID = uint16(id)
-
 	if err := c.Bind(&user); err != nil {
 		return c.JSON(http.StatusBadRequest, errors.HandleError(http.StatusBadRequest, err.Error()))
 	}
+
+	user.ID = uint16(id)
 
 	if err := c.Validate(user); err != nil {
 		return c.JSON(http.StatusBadRequest, errors.HandleError(http.StatusBadRequest, err.Error()))

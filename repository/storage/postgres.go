@@ -5,7 +5,19 @@ import (
 	"fmt"
 
 	settings "github.com/hjcalderon10/bunny-backend/setting"
+	_ "github.com/lib/pq"
 )
+
+var postgressStorage StorageRepository
+
+func NewPostgres() StorageRepository {
+	if postgressStorage != nil {
+		return postgressStorage
+	}
+
+	postgressStorage = NewPostgreStorage(settings.PostgresSetting)
+	return postgressStorage
+}
 
 func NewPostgreStorage(settings settings.PostgresSettings) StorageRepository {
 	conURL := fmt.Sprintf(
