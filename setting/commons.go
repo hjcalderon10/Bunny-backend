@@ -9,12 +9,11 @@ import (
 var Commons commons
 
 type commons struct {
-	AppEnv string `envconfig:"APP_ENV" default:"development"`
-
-	Port string `envconfig:"PORT" default:"8080"`
-	Host string `envconfig:"HOST" default:"0.0.0.0"`
-
+	AppEnv         string `envconfig:"APP_ENV" default:"development"`
+	Port           string `envconfig:"PORT" default:"8080"`
+	Host           string `envconfig:"HOST" default:"0.0.0.0"`
 	XApplicationID string `envconfig:"APPLICATION_ID" default:"bunny-backend/0.0.1"`
+	LogKey         string
 	ProjectName    string
 	ProjectVersion string
 }
@@ -27,4 +26,5 @@ func init() {
 	infoApp := strings.Split(Commons.XApplicationID, "/")
 	Commons.ProjectName = infoApp[0]
 	Commons.ProjectVersion = strings.Join(infoApp[1:], "")
+	Commons.LogKey = "log"
 }
