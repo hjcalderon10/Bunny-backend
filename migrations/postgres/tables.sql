@@ -1,12 +1,12 @@
+DROP TABLE IF EXISTS users, tasks, task_states CASCADE;
+
 CREATE TABLE users
 (
   id SERIAL,
   name VARCHAR NOT NULL,
   nickname VARCHAR,
-  img VARCHAR,
-  is_active BOOLEAN DEFAULT true,
+  img_url VARCHAR,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  inactivated_at TIMESTAMP,
   CONSTRAINT users_pk PRIMARY KEY (id)
 );
 
@@ -19,7 +19,7 @@ CREATE TABLE task_states
   CONSTRAINT task_states_pk PRIMARY KEY(id)
 );
 
-CREATE INDEX idx_tas_states_name ON users(state);
+CREATE INDEX idx_tas_states_name ON task_states(state);
 
 
 CREATE TABLE tasks
@@ -30,9 +30,7 @@ CREATE TABLE tasks
   title VARCHAR NOT NULL DEFAULT 'New task',
   description TEXT DEFAULT 'What should I do now?',
   deadline TIMESTAMP,
-  is_active BOOLEAN DEFAULT true,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  inactivated_at TIMESTAMP,
   CONSTRAINT tasks_pk PRIMARY KEY(id),
   FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE,
   FOREIGN KEY(state_id) REFERENCES task_states(id) ON DELETE CASCADE

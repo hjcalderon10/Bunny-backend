@@ -2,7 +2,6 @@ package storage
 
 import (
 	"database/sql"
-	"time"
 )
 
 type StorageRepository interface {
@@ -13,20 +12,4 @@ type StorageRepository interface {
 
 type storageRepo struct {
 	db *sql.DB
-}
-
-type DocDbSetting struct {
-	ConnString      string
-	DbName          string
-	Timeout         time.Duration
-	MaxConnIdleTime int
-	MaxConnections  int
-}
-
-type RedisSettings struct {
-	Host        string
-	Port        string
-	DialTimeout time.Duration
-	Timeout     time.Duration
-	PoolSize    int
 }

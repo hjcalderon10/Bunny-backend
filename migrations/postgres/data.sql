@@ -1,18 +1,18 @@
 INSERT INTO users
-  (id, name, nickname)
+  (name, nickname)
 VALUES
-  (1, 'Tommy Stark', 'Man of iron'),
-  (2, 'Peter Potter', 'The very best neighbor'),
-  (3, 'Harry Parker', NULL),
-  (4, 'Bayek of Siwa', 'Amun, the last Medjay');
+  ('Tommy Stark', 'Man of iron'),
+  ('Peter Potter', 'The very best neighbor'),
+  ('Harry Parker', NULL),
+  ('Bayek of Siwa', 'Amun, the last Medjay');
 
 INSERT INTO task_states
-  (id, state)
+  (state)
 VALUES
-  (1, 'TODO'),
-  (2, 'In progress'),
-  (3, 'Blocked'),
-  (4, 'Done');
+  ('TODO'),
+  ('In progress'),
+  ('Blocked'),
+  ('Done');
 
 INSERT INTO tasks
   (user_id, description, state_id)

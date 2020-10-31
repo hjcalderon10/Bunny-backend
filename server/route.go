@@ -28,6 +28,7 @@ func SetupRoutes(server *echo.Echo) {
 
 	taskCtrl := controllers.StartTask()
 	taskBase := baseRout.Group(taskCtrl.BasePath)
+	taskBase.GET("", taskCtrl.GetAllTasks)
 	taskBase.GET(taskCtrl.TaskPath, taskCtrl.ReadTask)
 	taskBase.PUT(taskCtrl.TaskPath, taskCtrl.UpdateTask)
 	taskBase.DELETE(taskCtrl.TaskPath, taskCtrl.DeleteTask)

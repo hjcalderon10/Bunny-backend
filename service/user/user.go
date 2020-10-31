@@ -46,14 +46,16 @@ func (srv service) ReadUser(ctx context.Context, user *models.User) error {
 		err = errors.InternalServerError
 
 	} else {
+		user.ID = userDB.ID
 		user.Name = userDB.Name
 		user.ImgURL = userDB.ImgURL
-		user.IsActive = userDB.IsActive
 		user.NickName = userDB.NickName
 		user.CreatedAt = userDB.CreatedAt
 	}
+
 	return err
 }
+
 func (srv service) UpdateUser(ctx context.Context, user models.User) error {
 	log := ctx.Value(settings.Commons.LogKey).(logger.Logger)
 	err := srv.repo.UpdateUser(ctx, user)
@@ -65,6 +67,7 @@ func (srv service) UpdateUser(ctx context.Context, user models.User) error {
 
 	return err
 }
+
 func (srv service) DeleteUser(ctx context.Context, user models.User) error {
 	log := ctx.Value(settings.Commons.LogKey).(logger.Logger)
 	err := srv.repo.DeleteUser(ctx, user.ID)
