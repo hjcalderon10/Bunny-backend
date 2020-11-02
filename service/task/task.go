@@ -39,16 +39,16 @@ func (srv service) GetAllTaskStates(ctx context.Context) ([]models.TaskState, er
 	return taskStates, err
 }
 
-func (srv service) CreateTask(ctx context.Context, task models.Task) error {
+func (srv service) CreateTask(ctx context.Context, task models.Task) (models.Task, error) {
 	log := ctx.Value(settings.Commons.LogKey).(logger.Logger)
-	err := srv.repo.CreateTask(ctx, task)
+	id, err := srv.repo.CreateTask(ctx, task)
 
 	if err != nil {
 		log.Errorf("[CreateTask:%s]", err)
 		err = errors.InternalServerError
 	}
 
-	return err
+	return models.Task{ID: id}, err
 }
 
 func (srv service) ReadTask(ctx context.Context, task *models.Task) error {

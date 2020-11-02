@@ -16,12 +16,12 @@ type (
 	}
 
 	ITaskService interface {
-		CreateTask(ctx context.Context, task models.Task) error
+		CreateTask(ctx context.Context, task models.Task) (models.Task, error)
 	}
 
 	IRepo interface {
 		GetAllTasks(ctx context.Context) ([]models.Task, error)
-		CreateTask(ctx context.Context, task models.Task) error
+		CreateTask(ctx context.Context, task models.Task) (uint16, error)
 		ReadTask(ctx context.Context, taskID models.TaskID) (models.Task, error)
 		UpdateTask(ctx context.Context, task models.Task) error
 		DeleteTask(ctx context.Context, taskID models.TaskID) error

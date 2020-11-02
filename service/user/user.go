@@ -27,16 +27,16 @@ func (srv service) GetAllUsers(ctx context.Context) ([]models.User, error) {
 	return users, err
 }
 
-func (srv service) CreateUser(ctx context.Context, user models.User) error {
+func (srv service) CreateUser(ctx context.Context, user models.User) (models.User, error) {
 	log := ctx.Value(settings.Commons.LogKey).(logger.Logger)
-	err := srv.repo.CreateUser(ctx, user)
+	id, err := srv.repo.CreateUser(ctx, user)
 
 	if err != nil {
 		log.Errorf("[CreateUser:%s]", err)
 		err = errors.InternalServerError
 	}
 
-	return err
+	return models.User{ID: id}, err
 }
 func (srv service) ReadUser(ctx context.Context, user *models.User) error {
 	log := ctx.Value(settings.Commons.LogKey).(logger.Logger)

@@ -40,7 +40,7 @@ func TestCreateTask(t *testing.T) {
 		UserID: userID,
 	}
 
-	err = repo.CreateTask(ctx, task)
+	_, err = repo.CreateTask(ctx, task)
 	assert.NoError(t, err)
 
 	rows, err := repo.db.Raw(fmt.Sprintf("SELECT * FROM tasks WHERE title = '%s'", task.Title))
@@ -59,17 +59,17 @@ func TestCreateTaskError(t *testing.T) {
 	ctx := context.WithValue(context.Background(), settings.Commons.LogKey, logger.New("TestCreateTaskError"))
 	repo = New()
 	bdMock := mocks.StorageRepoMock{}
-	bdMock.On("Exec").Return(nil, errRepo)
+	bdMock.On("Raw").Return(nil, errRepo)
 	repo.db = &bdMock
 
 	task := models.Task{
 		Title: "taskTitle",
 	}
 
-	err := repo.CreateTask(ctx, task)
+	_, err := repo.CreateTask(ctx, task)
 	assert.Error(t, err)
 
-	bdMock.AssertNumberOfCalls(t, "Exec", 1)
+	bdMock.AssertNumberOfCalls(t, "Raw", 1)
 }
 
 func TestGetAllTasks(t *testing.T) {
@@ -94,7 +94,7 @@ func TestGetAllTasks(t *testing.T) {
 	}
 
 	for _, task := range tasks {
-		err := repo.CreateTask(ctx, task)
+		_, err := repo.CreateTask(ctx, task)
 		assert.NoError(t, err)
 	}
 
@@ -135,9 +135,9 @@ func TestUpdateTask(t *testing.T) {
 		UserID: userID,
 	}
 
-	err = repo.CreateTask(ctx, task)
+	_, err = repo.CreateTask(ctx, task)
+	assert.NoError(t, err)
 
-	fmt.Println(err)
 	rows, err := repo.db.Raw(fmt.Sprintf("SELECT id FROM tasks WHERE title='%s'", task.Title))
 	assert.NoError(t, err)
 	defer rows.Close()
@@ -192,7 +192,7 @@ func TestDeleteTask(t *testing.T) {
 		UserID: userID,
 	}
 
-	err = repo.CreateTask(ctx, task)
+	_, err = repo.CreateTask(ctx, task)
 	assert.NoError(t, err)
 
 	rows, err := repo.db.Raw(fmt.Sprintf("SELECT id FROM tasks WHERE title='%s'", task.Title))

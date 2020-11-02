@@ -44,9 +44,15 @@ func (repo userRepository) GetAllUsers(ctx context.Context) ([]models.User, erro
 	return users, err
 }
 
-func (repo userRepository) CreateUser(ctx context.Context, user models.User) error {
-	_, err := repo.db.Exec(create_user, user.Name, user.NickName, user.ImgURL)
-	return err
+func (repo userRepository) CreateUser(ctx context.Context, user models.User) (uint16, error) {
+	var id uint16
+	rows, err := repo.db.Raw(create_user, user.Name, user.NickName, user.ImgURL)
+	if err == nil {
+		if rows.Next() {
+			rows.Scan(&id)
+		}
+	}
+	return id, err
 }
 
 func (repo userRepository) ReadUser(ctx context.Context, userID models.UserID) (models.User, error) {

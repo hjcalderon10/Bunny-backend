@@ -65,9 +65,15 @@ func (repo taskRepository) GetAllTaskStates(ctx context.Context) ([]models.TaskS
 	return taskStates, err
 }
 
-func (repo taskRepository) CreateTask(ctx context.Context, task models.Task) error {
-	_, err := repo.db.Exec(create_task, task.Title, task.Description, task.UserID)
-	return err
+func (repo taskRepository) CreateTask(ctx context.Context, task models.Task) (uint16, error) {
+	var id uint16
+	rows, err := repo.db.Raw(create_task, task.Title, task.Description, task.UserID)
+	if err == nil {
+		if rows.Next() {
+			rows.Scan(&id)
+		}
+	}
+	return id, err
 }
 
 func (repo taskRepository) ReadTask(ctx context.Context, taskID models.TaskID) (models.Task, error) {

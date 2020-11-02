@@ -63,10 +63,10 @@ func TestCreateUser(t *testing.T) {
 		ID: uint16(5),
 	}
 	userRepoMock := mocks.UserMock{}
-	userRepoMock.On("CreateUser").Return(nil)
+	userRepoMock.On("CreateUser").Return(uint16(10), nil)
 	srv := New(&userRepoMock)
 
-	err := srv.CreateUser(context.WithValue(context.Background(), settings.Commons.LogKey, logger.New("-")), user)
+	_, err := srv.CreateUser(context.WithValue(context.Background(), settings.Commons.LogKey, logger.New("-")), user)
 
 	assert.NoError(t, err)
 	userRepoMock.AssertNumberOfCalls(t, "CreateUser", 1)
@@ -78,10 +78,10 @@ func TestCreateUserRepoError(t *testing.T) {
 		ID: uint16(5),
 	}
 	userRepoMock := mocks.UserMock{}
-	userRepoMock.On("CreateUser").Return(fmt.Errorf("theres no chance u can create that user"))
+	userRepoMock.On("CreateUser").Return(uint16(0), fmt.Errorf("theres no chance u can create that user"))
 	srv := New(&userRepoMock)
 
-	err := srv.CreateUser(context.WithValue(context.Background(), settings.Commons.LogKey, logger.New("-")), user)
+	_, err := srv.CreateUser(context.WithValue(context.Background(), settings.Commons.LogKey, logger.New("-")), user)
 
 	assert.Error(t, err)
 	userRepoMock.AssertNumberOfCalls(t, "CreateUser", 1)
