@@ -17,5 +17,9 @@ func SetupMiddlewares(server *echo.Echo) {
 				return strings.Contains(e.Path(), "health-check")
 			},
 		}),
+		middleware.CORSWithConfig(middleware.CORSConfig{
+			AllowOrigins: []string{"*"},
+			AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
+		}),
 	)
 }

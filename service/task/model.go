@@ -12,6 +12,7 @@ type (
 		ReadTask(ctx context.Context, task *models.Task) error
 		UpdateTask(ctx context.Context, task models.Task) error
 		DeleteTask(ctx context.Context, task models.Task) error
+		GetAllTaskStates(ctx context.Context) ([]models.TaskState, error)
 	}
 
 	ITaskService interface {
@@ -24,6 +25,7 @@ type (
 		ReadTask(ctx context.Context, taskID models.TaskID) (models.Task, error)
 		UpdateTask(ctx context.Context, task models.Task) error
 		DeleteTask(ctx context.Context, taskID models.TaskID) error
+		GetAllTaskStates(ctx context.Context) ([]models.TaskState, error)
 	}
 
 	service struct {

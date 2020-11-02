@@ -44,6 +44,27 @@ func (repo taskRepository) GetAllTasks(ctx context.Context) ([]models.Task, erro
 	return tasks, err
 }
 
+func (repo taskRepository) GetAllTaskStates(ctx context.Context) ([]models.TaskState, error) {
+	taskStates := []models.TaskState{}
+	rows, err := repo.db.Raw(get_all_task_states)
+	if err != nil {
+		return taskStates, err
+	}
+	defer rows.Close()
+
+	var taskState models.TaskState
+	for rows.Next() {
+		taskState = models.TaskState{}
+		sqlstruct.Scan(&taskState, rows)
+
+		taskStates = append(taskStates, taskState)
+	}
+
+	err = rows.Err()
+
+	return taskStates, err
+}
+
 func (repo taskRepository) CreateTask(ctx context.Context, task models.Task) error {
 	_, err := repo.db.Exec(create_task, task.Title, task.Description, task.UserID)
 	return err

@@ -32,6 +32,7 @@ func SetupRoutes(server *echo.Echo) {
 	taskBase.GET(taskCtrl.TaskPath, taskCtrl.ReadTask)
 	taskBase.PUT(taskCtrl.TaskPath, taskCtrl.UpdateTask)
 	taskBase.DELETE(taskCtrl.TaskPath, taskCtrl.DeleteTask)
+	taskBase.GET(taskCtrl.StatesPath, taskCtrl.GetAllTaskStates)
 
 }
 
