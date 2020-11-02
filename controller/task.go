@@ -16,16 +16,18 @@ import (
 )
 
 type Task struct {
-	BasePath string
-	TaskPath string
-	service  services.IService
+	BasePath   string
+	TaskPath   string
+	StatesPath string
+	service    services.IService
 }
 
 func StartTask() Task {
 	return Task{
-		BasePath: "/tasks",
-		TaskPath: fmt.Sprintf("/:%s", paramTaskID),
-		service:  services.New(taskRepo.New()),
+		BasePath:   "/tasks",
+		TaskPath:   fmt.Sprintf("/:%s", paramTaskID),
+		StatesPath: "/states",
+		service:    services.New(taskRepo.New()),
 	}
 }
 
@@ -39,6 +41,18 @@ func (ctrl Task) GetAllTasks(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusOK, tasks)
+}
+
+func (ctrl Task) GetAllTaskStates(c echo.Context) error {
+	log := logger.New("-")
+	ctx := context.WithValue(c.Request().Context(), settings.Commons.LogKey, log)
+
+	taskStates, err := ctrl.service.GetAllTaskStates(ctx)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, errors.HandleError(http.StatusInternalServerError, err.Error()))
+	}
+
+	return c.JSON(http.StatusOK, taskStates)
 }
 
 func (ctrl Task) ReadTask(c echo.Context) error {

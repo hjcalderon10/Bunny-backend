@@ -15,7 +15,7 @@ func TestServer(t *testing.T) {
 	settings.Commons.Port = "8080"
 	go Start()
 	time.Sleep(200 * time.Millisecond)
-	resp, err := http.Get("http://localhost:8080/api/health-check")
+	resp, err := http.Get("http://localhost:8080/api/v1/health-check")
 	assert.Nil(t, err, fmt.Sprintf("%s", err))
 	assert.Equal(t, http.StatusOK, resp.StatusCode)
 }

@@ -68,7 +68,7 @@ func TestCreateUser(t *testing.T) {
 	)
 
 	userSrvMock := mocks.UserMock{}
-	userSrvMock.On("CreateUser").Return(nil)
+	userSrvMock.On("CreateUser").Return(models.User{}, nil)
 
 	ctrl := StartUser()
 	ctrl.userSrv = &userSrvMock
@@ -88,7 +88,7 @@ func TestCreateUserBindError(t *testing.T) {
 	)
 
 	userSrvMock := mocks.UserMock{}
-	userSrvMock.On("CreateUser").Return(nil)
+	userSrvMock.On("CreateUser").Return(models.User{}, nil)
 
 	ctrl := StartUser()
 	ctrl.userSrv = &userSrvMock
@@ -108,7 +108,7 @@ func TestCreateUserServiceError(t *testing.T) {
 	)
 
 	userSrvMock := mocks.UserMock{}
-	userSrvMock.On("CreateUser").Return(errUser)
+	userSrvMock.On("CreateUser").Return(models.User{}, errUser)
 
 	ctrl := StartUser()
 	ctrl.userSrv = &userSrvMock
@@ -338,7 +338,7 @@ func TestCreateUserTask(t *testing.T) {
 	c.SetParamValues(userID)
 
 	taskSrvMock := mocks.TaskMock{}
-	taskSrvMock.On("CreateTask").Return(nil)
+	taskSrvMock.On("CreateTask").Return(models.Task{}, nil)
 
 	ctrl := StartUser()
 	ctrl.taskSrv = &taskSrvMock
@@ -361,7 +361,7 @@ func TestCreateUserTaskBindError(t *testing.T) {
 	c.SetParamValues(notUserID)
 
 	taskSrvMock := mocks.TaskMock{}
-	taskSrvMock.On("CreateTask").Return(nil)
+	taskSrvMock.On("CreateTask").Return(models.Task{}, nil)
 
 	ctrl := StartUser()
 	ctrl.taskSrv = &taskSrvMock
@@ -384,7 +384,7 @@ func TestCreateUserTaskServiceError(t *testing.T) {
 	c.SetParamValues(userID)
 
 	taskSrvMock := mocks.TaskMock{}
-	taskSrvMock.On("CreateTask").Return(errUser)
+	taskSrvMock.On("CreateTask").Return(models.Task{}, errUser)
 
 	ctrl := StartUser()
 	ctrl.taskSrv = &taskSrvMock

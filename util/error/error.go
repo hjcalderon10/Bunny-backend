@@ -12,7 +12,7 @@ type ErrorMessage struct {
 }
 
 func (errMsg ErrorMessage) Error() string {
-	return fmt.Sprintf("%s: %s", errMsg.Code, errMsg.Message)
+	return fmt.Sprintf("%d: %s", errMsg.Code, errMsg.Message)
 }
 
 func HandleError(code int, message string) *ErrorMessage {

@@ -21,14 +21,14 @@ func (_m *UserMock) GetAllUsers(ctx context.Context) ([]models.User, error) {
 	return args.Get(0).([]models.User), nil
 }
 
-func (_m *UserMock) CreateUser(ctx context.Context, user models.User) error {
+func (_m *UserMock) CreateUser(ctx context.Context, user models.User) (uint16, error) {
 	args := _m.Called()
 
-	if err := args.Get(0); err != nil {
-		return err.(error)
+	if err := args.Get(1); err != nil {
+		return uint16(0), err.(error)
 	}
 
-	return nil
+	return args.Get(0).(uint16), nil
 }
 
 func (_m *UserMock) ReadUser(ctx context.Context, userID models.UserID) (models.User, error) {

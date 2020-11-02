@@ -9,7 +9,7 @@ import (
 type (
 	IService interface {
 		GetAllUsers(ctx context.Context) ([]models.User, error)
-		CreateUser(ctx context.Context, user models.User) error
+		CreateUser(ctx context.Context, user models.User) (models.User, error)
 		ReadUser(ctx context.Context, user *models.User) error
 		UpdateUser(ctx context.Context, user models.User) error
 		DeleteUser(ctx context.Context, user models.User) error
@@ -17,7 +17,7 @@ type (
 
 	IRepo interface {
 		GetAllUsers(ctx context.Context) ([]models.User, error)
-		CreateUser(ctx context.Context, user models.User) error
+		CreateUser(ctx context.Context, user models.User) (uint16, error)
 		ReadUser(ctx context.Context, userID models.UserID) (models.User, error)
 		UpdateUser(ctx context.Context, user models.User) error
 		DeleteUser(ctx context.Context, userID models.UserID) error

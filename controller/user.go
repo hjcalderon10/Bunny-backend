@@ -61,11 +61,11 @@ func (ctrl User) CreateUser(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, errors.HandleError(http.StatusBadRequest, err.Error()))
 	}
 
-	if err := ctrl.userSrv.CreateUser(ctx, user); err != nil {
+	if newUser, err := ctrl.userSrv.CreateUser(ctx, user); err != nil {
 		return c.JSON(http.StatusInternalServerError, errors.HandleError(http.StatusInternalServerError, err.Error()))
+	} else {
+		return c.JSON(http.StatusCreated, newUser)
 	}
-
-	return c.NoContent(http.StatusCreated)
 }
 
 func (ctrl User) ReadUser(c echo.Context) error {
@@ -161,9 +161,9 @@ func (ctrl User) CreateUserTask(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, errors.HandleError(http.StatusBadRequest, err.Error()))
 	}
 
-	if err := ctrl.taskSrv.CreateTask(ctx, task); err != nil {
+	if newTask, err := ctrl.taskSrv.CreateTask(ctx, task); err != nil {
 		return c.JSON(http.StatusInternalServerError, errors.HandleError(http.StatusInternalServerError, err.Error()))
+	} else {
+		return c.JSON(http.StatusCreated, newTask)
 	}
-
-	return c.NoContent(http.StatusCreated)
 }

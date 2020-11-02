@@ -12,4 +12,9 @@ type (
 		Description string    `json:"description,omitempty" sql:"description"`
 		CreatedAt   time.Time `json:"created_at,omitempty" sql:"created_at"`
 	}
+
+	TaskState struct {
+		ID    uint16 `json:"id,omitempty" sql:"id"`
+		State string `json:"state,omitempty" sql:"state"`
+	}
 )

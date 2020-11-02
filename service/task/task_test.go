@@ -63,10 +63,10 @@ func TestCreateTask(t *testing.T) {
 		ID: uint16(5),
 	}
 	taskRepoMock := mocks.TaskMock{}
-	taskRepoMock.On("CreateTask").Return(nil)
+	taskRepoMock.On("CreateTask").Return(uint16(10), nil)
 	srv := New(&taskRepoMock)
 
-	err := srv.CreateTask(context.WithValue(context.Background(), settings.Commons.LogKey, logger.New("-")), task)
+	_, err := srv.CreateTask(context.WithValue(context.Background(), settings.Commons.LogKey, logger.New("-")), task)
 
 	assert.NoError(t, err)
 	taskRepoMock.AssertNumberOfCalls(t, "CreateTask", 1)
@@ -78,10 +78,10 @@ func TestCreateTaskRepoError(t *testing.T) {
 		ID: uint16(5),
 	}
 	taskRepoMock := mocks.TaskMock{}
-	taskRepoMock.On("CreateTask").Return(fmt.Errorf("theres no chance u can create that task"))
+	taskRepoMock.On("CreateTask").Return(uint16(10), fmt.Errorf("theres no chance u can create that task"))
 	srv := New(&taskRepoMock)
 
-	err := srv.CreateTask(context.WithValue(context.Background(), settings.Commons.LogKey, logger.New("-")), task)
+	_, err := srv.CreateTask(context.WithValue(context.Background(), settings.Commons.LogKey, logger.New("-")), task)
 
 	assert.Error(t, err)
 	taskRepoMock.AssertNumberOfCalls(t, "CreateTask", 1)

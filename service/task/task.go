@@ -27,16 +27,28 @@ func (srv service) GetAllTasks(ctx context.Context) ([]models.Task, error) {
 	return tasks, err
 }
 
-func (srv service) CreateTask(ctx context.Context, task models.Task) error {
+func (srv service) GetAllTaskStates(ctx context.Context) ([]models.TaskState, error) {
 	log := ctx.Value(settings.Commons.LogKey).(logger.Logger)
-	err := srv.repo.CreateTask(ctx, task)
+	taskStates, err := srv.repo.GetAllTaskStates(ctx)
+
+	if err != nil {
+		log.Errorf("[GetAllTasks:%s]", err)
+		err = errors.InternalServerError
+	}
+
+	return taskStates, err
+}
+
+func (srv service) CreateTask(ctx context.Context, task models.Task) (models.Task, error) {
+	log := ctx.Value(settings.Commons.LogKey).(logger.Logger)
+	id, err := srv.repo.CreateTask(ctx, task)
 
 	if err != nil {
 		log.Errorf("[CreateTask:%s]", err)
 		err = errors.InternalServerError
 	}
 
-	return err
+	return models.Task{ID: id}, err
 }
 
 func (srv service) ReadTask(ctx context.Context, task *models.Task) error {
