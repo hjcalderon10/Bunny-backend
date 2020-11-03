@@ -115,8 +115,8 @@ func (repo taskRepository) buildUpdateQuery(task models.Task) (string, error) {
 	if task.Description != "" {
 		fmt.Fprintf(&strBuff, "description='%s', ", task.Description)
 	}
-	if task.State != "" {
-		fmt.Fprintf(&strBuff, "state='%s', ", task.State)
+	if task.State > 0 {
+		fmt.Fprintf(&strBuff, "state_id='%d', ", task.State)
 	}
 
 	if strBuff.Len() == 0 {

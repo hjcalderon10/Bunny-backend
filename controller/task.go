@@ -99,6 +99,8 @@ func (ctrl Task) UpdateTask(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, errors.HandleError(http.StatusBadRequest, err.Error()))
 	}
 
+	fmt.Println(task)
+
 	if err := ctrl.service.UpdateTask(ctx, task); err != nil {
 		return c.JSON(http.StatusInternalServerError, errors.HandleError(http.StatusInternalServerError, err.Error()))
 	}
